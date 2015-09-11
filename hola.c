@@ -2,12 +2,11 @@
 #include<unistd.h>
 #include<sys/types.h>
 #include<sys/wait.h>
-int main (void){
+int main (int argc, char *argv[]){
 	pid_t hijo;
 	hijo = fork();
 	if (hijo < 0){
 		printf("Algo salio mal, un culo va a sangrar\n");
-		
 	}
 	if (hijo == 0){
 		printf("Soy el hijo de %d, mi identidad es %d\n", getppid(), getpid());
