@@ -13,7 +13,7 @@ int main(void){
 	}
 	else{
 		printf("soy el padre de %d\n", hijo);
-		Printf("Pendejos malcriados\n");
+		printf("Pendejos malcriados %d\n", c);
 	}
 	//printf("Hola mundo! soy %d\n", hijo);
 	return 0;
