@@ -42,7 +42,7 @@ la imagendel proceso es reemplazada por ``kcalc''.\\
 #include<unistd.h>
 #include<stdio.h>
 #include<stdlib.h>
-int main (int argc, char ∗argv[]) {
+int main (int argc, char *argv[]) {
         pid_t pid = fork();
         if(pid == 0){
             execlp ("kcalc", "kcalc", NULL);
