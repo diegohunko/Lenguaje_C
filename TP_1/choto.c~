@@ -5,13 +5,13 @@
 #include<stdlib.h>
 int main (int argc, char *argv[]) {
         pid_t hijo1, hijo2;
-        );
-        hijo2 = fork();
+        
+        
         if((hijo1 = fork()) == 0){
             execlp ("kcalc", "kcalc", NULL);
             printf ("Ap. 1 ejecutada\n");
         }
-        if (hijo2 == 0){
+        if ((hijo2 = fork()) == 0){
             execlp ("xload", "xload", NULL);
             printf ("Ap. 2 ejecutada\n");
         }

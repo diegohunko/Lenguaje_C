@@ -5,7 +5,7 @@
 #include<stdlib.h>
 int main (int argc, char *argv[]) {
         pid_t hijo1, hijo2;
-        
+        int estado1, estado2;
         
         if((hijo1 = fork()) == 0){
             execlp ("kcalc", "kcalc", NULL);
@@ -15,5 +15,7 @@ int main (int argc, char *argv[]) {
             execlp ("xload", "xload", NULL);
             printf ("Ap. 2 ejecutada\n");
         }
+        wait(&estado1);
+        wait(&estado2);
         return 0;
 }
