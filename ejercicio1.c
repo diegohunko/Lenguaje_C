@@ -9,7 +9,7 @@ int main(void){
 	c=a+b;
 	hijo = fork();
 	if (hijo == 0){
-		printf("soy el hijo de %d\n", getppid());
+		printf("soy el hijo de %d, %d\n", getppid(), hijo);
 	}
 	else{
 		printf("soy el padre de %d\n", hijo);
