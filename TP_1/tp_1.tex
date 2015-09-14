@@ -33,7 +33,7 @@ pid2=fork() pid2=fork() pid2=fork  pid2=fork() pid2   pid2  pid2    pid2
 \end{verbatim}
 
 3.a)Al no fallar ``execlp ("kcalc", "kcalc", NULL);''
-la imagendel proceso es reemplazada por ``kcalc''.\\
+la imagen del proceso es reemplazada por \emph{``kcalc''}.\\
 
 3.b)
 \begin{verbatim}
@@ -74,8 +74,10 @@ int main (int argc, char *argv[]) {
         }
         fin1 = wait(&estado1); (*)
         fin2 = wait(&estado2); (*)
-        printf("termino el proceso: %d, estado: %d\n", fin1, WEXITSTATUS(estado1)); (*)
-        printf("termino el proceso: %d, estado: %d\n", fin2, WEXITSTATUS(estado2)); (*)
+        printf("termino el proceso: %d, estado: %d\n", fin1, 
+                                  WEXITSTATUS(estado1)); (*)
+        printf("termino el proceso: %d, estado: %d\n", fin2,
+                                  WEXITSTATUS(estado2)); (*)
         return 0;
 }
 \end{verbatim}
@@ -91,5 +93,12 @@ int main (int argc, char *argv[]) {
                  fin2=wait()       /     \
                  printf()        proc1   proc2
                  printf()
+\end{verbatim}
+
+5) Si \emph{execlp} no falla, se impime:\\
+\begin{verbatim}
+Inicio
+Valor hola
+Hijo terminado
 \end{verbatim}
 \end{document}
