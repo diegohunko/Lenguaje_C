@@ -16,7 +16,7 @@ Operativos
 
 1.c) se imprimen diez ``1'' y diez ``2''.
 
-%\begin{verbatim}
+\begin{verbatim}
                       _________pid1=frok()_________
                      /                             \
                     /                               \
@@ -30,7 +30,7 @@ pid2=fork() pid2=fork() pid2=fork  pid2=fork() pid2   pid2  pid2    pid2
  |       |    |     |      |           |       |  |   |  |  |  |    |  |
  1       1    x     x      x           x       1  1   x  x  1  1    x  x
  x       2    x     2      x           2       x  2   x  2  x  2    x  2
-%\end{verbatim}
+\end{verbatim}
 
 3.a)Al no fallar ``execlp ("kcalc", "kcalc", NULL);''
 la imagen del proceso es reemplazada por \emph{``kcalc''}.\\
