@@ -79,4 +79,17 @@ int main (int argc, char *argv[]) {
         return 0;
 }
 \end{verbatim}
+
+3.d
+\begin{verbatim}
+                              hijo1=fork()
+                              /          \
+                             /            \
+                       hijo2=fork()      execlp(kcalc)
+                       /         \
+                 fin1=wait()    execlp(xload)
+                 fin2=wait()       /     \
+                 printf()        proc1   proc2
+                 printf()
+\end{verbatim}
 \end{document}

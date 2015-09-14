@@ -62,21 +62,34 @@ int main (int argc, char *argv[]) {
 #include<stdlib.h>
 int main (int argc, char *argv[]) {
         pid_t hijo1, hijo2, fin1, fin2;
-        int estado1, estado2;
+        int estado1, estado2; (*)
         
         if((hijo1 = fork()) == 0){
-            execlp ("ls", "ls", NULL);
+            execlp ("kcalc", "kcalc", NULL);
             printf ("Ap. 1 ejecutada\n");
         }
         if ((hijo2 = fork()) == 0){
-            execlp ("ps", "ps", NULL);
+            execlp ("xload", "xload", NULL);
             printf ("Ap. 2 ejecutada\n");
         }
-        fin1 = wait(&estado1);
-        fin2 = wait(&estado2);
-        printf("termino el proceso: %d, estado: %d\n", fin1, WEXITSTATUS(estado1));
-        printf("termino el proceso: %d, estado: %d\n", fin2, WEXITSTATUS(estado2));
+        fin1 = wait(&estado1); (*)
+        fin2 = wait(&estado2); (*)
+        printf("termino el proceso: %d, estado: %d\n", fin1, WEXITSTATUS(estado1)); (*)
+        printf("termino el proceso: %d, estado: %d\n", fin2, WEXITSTATUS(estado2)); (*)
         return 0;
 }
+\end{verbatim}
+
+3.d
+\begin{verbatim}
+                             hijo1=fork()
+                              /          \
+                             /            \
+                       hijo2=fork()      execlp(kcalc)
+                       /         \
+                 fin1=wait()    execlp(xload)
+                 fin2=wait()       /     \
+                 printf()       
+                 printf()
 \end{verbatim}
 \end{document}
