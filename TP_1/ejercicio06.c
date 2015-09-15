@@ -22,12 +22,14 @@ int main()
     if (hijo1 == 0){
         printf("Mi PID= %d, mi PPID= %d, mi PGID= %d, mi SID= %d, mi PGID= %d\n", getpid(), getppid(), getpgid(hijo1), getsid(hijo1), getpgid(0));
 		sleep(5);
+		printf("mi padre es: %d\n", getppid());
         exit(0);
     }
     
     hijo2 = fork();
     if (hijo2 == 0){
 		printf("PID= %d\n", getpid());
+        printf("mi padre es: %d\n", getppid());
         if (execlp("ls", "ls", "-l", NULL) < 0){
             exit(1);
         }
