@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 		
 	}else{
 		if((hijo2 = fork()) == 0){
-			
+			sleep(10);
 		}
 	}
 	return 0;
