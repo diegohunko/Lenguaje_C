@@ -38,25 +38,28 @@
 int main(int argc, char **argv)
 {
 	pid_t hijo1, hijo2, hijo3, hijo4;
-	if ((hijo1 = fork()) == 0){          //creacion de hijo1
-		
-		if ((hijo3 = fork()) > 0){       //creacion de hijo3
-		
-			setpgid(hijo1, getpgid());
-			if ((hijo4 = fork()) > 0){   //creacion de hijo4
-				exit(0);
-			}else{
-				sleep(10);               //hijo4 duerme 10''
-			}
-			
+	if ((hijo1 = fork()) == 0){           //creacion de hijo1
+		printf("Mi PID= %d, mi PPID= %d, mi GID= %d, mi SID= %d\n", getpid(), getppid(), getgid(), getsid(getpid()));
+		if ((hijo3 = fork()) == 0){       //creacion de hijo3
+			printf("Mi PID= %d, mi PPID= %d, mi GID= %d, mi SID= %d\n", getpid(), getppid(), getgid(), getsid(getpid()));
+			sleep(10);                    //hijo3 duerme 10''
 		}else{
-			sleep(10);                   //hijo3 duerme 10''
+			//printf("PID= %d, GID= %d\n", getpid(), getgid());
+			setgid(getpid());
+			if ((hijo4 = fork()) == 0){   //creacion de hijo4
+				printf("Mi PID= %d, mi PPID= %d, mi GID= %d, mi SID= %d\n", getpid(), getppid(), getgid(), getsid(getpid()));
+				sleep(10);
+			}else{
+				exit(0);
+			}
 		}
 		
 	}else{
 		if((hijo2 = fork()) == 0){
+			printf("Mi PID= %d, mi PPID= %d, mi GID= %d, mi SID= %d\n", getpid(), getppid(), getgid(), getsid(getpid()));
 			sleep(10);
 		}else{
+			printf("Mi PID= %d, mi PPID= %d, mi GID= %d, mi SID= %d\n", getpid(), getppid(), getgid(), getsid(getpid()));
 			sleep(20);
 			exit(0);
 		}
