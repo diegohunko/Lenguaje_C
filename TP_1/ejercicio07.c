@@ -44,7 +44,7 @@ int main(int argc, char **argv)
 {
 	pid_t hijo[argc], fin_hijo[argc];
 	int i, estados;
-	if (argc < 1){
+	if (argc < 2){
 		printf("Debe pasar al menos un nombre de archivo\n");
 		exit(1);
 	}
