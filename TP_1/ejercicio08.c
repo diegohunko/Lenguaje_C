@@ -47,15 +47,20 @@ int main(int argc, char **argv)
 		printf("Hubo un error en crear el grupo\n");
 	else{
 		if ((hijo1=fork()) == 0){
+			//printf("Mi PPID es: %d\n", getppid());
 			execlp("whoami", "whoami", NULL);
 		}
 		if ((hijo2 = fork()) == 0){
+			//printf("Mi PPID es: %d\n", getppid());
+			//sleep(20);
 			execlp("w", "w", NULL);
 		}
 	}
 	for(i=0; i<2; i++){
 		finhijo[i] = wait(&estado);
+		printf("termino: %d\n", finhijo[i]);
 	}
+	printf("PPID= %d, PID= %d, PGID= %d\n", getppid(), getpid(), getpgid(getpid()));
 	return 0;
 }
 
