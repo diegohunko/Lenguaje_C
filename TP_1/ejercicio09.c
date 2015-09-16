@@ -87,24 +87,7 @@ int main(int argc, char **argv)
 	}
 	else{
 		printf("cantidad de parametros invalida.\n");
-	}
-/*
-int i, limite;
-	pid_t flia; 
-	if (argc == 3){
-		limite = atoi(argv[2]);
-		if(argv[1] == 'a'){
-			for (i = 0; i < limite; i++){
-				
-			}
-		}
-	}else{
-		printf("Numero de parametros incorrecto.\n");
-		exit(1);
-
-
-*/
-	
+	}	
 	return 0;
 }
 
