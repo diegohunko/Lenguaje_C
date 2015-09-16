@@ -45,19 +45,25 @@ int main(int argc, char **argv)
 	pid_t hijo[argc], fin_hijo[argc];
 	int i, estados;
 	if (argc < 1){
-		printf("Debepasar al menos un nombre de archivo\n");
-		exit(0);
+		printf("Debe pasar al menos un nombre de archivo\n");
+		exit(1);
 	}
 	else{
 		for (i = 0; i < argc; i++){
 			hijo[i] = fork();
 			if (hijo[i]==0){
 				printf("Mi PID= %d, mi PPID= %d, mi PGID= %d, Nombre archivo: %s\n", getpid(), getppid(), getpgid(hijo[i]), argv[i]);
-				execlp("wc", "wc", "-l", argv[i]);
+				execlp("wc", "wc", "-l", argv[i], NULL);
 			}
 		}
 		for (i = 0; i < argc; i++){
 			fin_hijo[i] = wait(&estados);
+			if (WIFEXITED (estados)){
+				printf("el proceso: %d termino en forma normal\n", fin_hijo[i]);
+			}
+			if (WIFSIGNALED(estados)){
+				printf("Hijo termino a causa de una señal\n");
+			}
 		}
 	}
 	return 0;
