@@ -77,7 +77,7 @@ int main(int argc, char * argv[]) {
 }
 \end{verbatim}
 
-2.c) Si el usuario ejecuta \emph{./cp1 4} se obtienen 5 hijos.
+2.c) Si el usuario ejecuta \emph{./cp1 4} se crean 5 procesos hijos.
 
 2.d)
 \begin{verbatim}
@@ -125,6 +125,7 @@ int main (int argc, char *argv[]) {
         return 0;
 }
 \end{verbatim}
+3.b)
 \begin{verbatim}
 #include<sys/types.h>
 #include<sys/wait.h>
@@ -166,8 +167,7 @@ int main (int argc, char *argv[]) {
                  printf()
 \end{verbatim}
 
-4)
-
+4)``Parcial.'' se imprime 22 veces.
 5) Si \emph{execlp} no falla, se imprime:\\
 \begin{verbatim}
 Inicio
@@ -180,7 +180,6 @@ Inicio
 Final
 Hijo terminado
 \end{verbatim}
-6)Tanto \textbf{hijo1} como \textbf{hijo2} se convierten en hu\'erfanos
-
+6)Tanto \textbf{hijo1} como \textbf{hijo2} se convierten en hu\'erfanos\\
 10) Los procesos zombies son: hijo1 e hijo2. hijo4 queda hu\'erfano.
 \end{document}
