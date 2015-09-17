@@ -1,6 +1,20 @@
 \documentclass{article}
 \usepackage{verbatim}
+\usepackage[spanish]{babel}
+\title{\Huge{Gesti\'on de Procesos en C}}
+\author{\Large{Fern\'andez Hunko, Diego Ra\'ul}}
+
 \begin{document}
+\maketitle
+
+\begin{tabular}{l l}
+\textbf{\large{Materia}} & \large{Sistemas Operativos} \\
+\textbf{\large{Profesor Titular}} & \large{Ing. Rub\'en L.M.Casta\~no} \\      
+\textbf{\large{JTP}} & \large{Ing. Roberto A. Mi\~no} \\
+\textbf{\large{Ayudante 1ra}} & \large{Lic. Claudio O. Biale} \\
+\end{tabular}
+\newpage
+
 1.a)El proceso hijo imprime Sistemas y el proceso padre imprime Operativos:
 \begin{verbatim}
 Sistemas
@@ -30,6 +44,63 @@ pid2=fork() pid2=fork() pid2=fork  pid2=fork() pid2   pid2  pid2    pid2
  |       |    |     |      |           |       |  |   |  |  |  |    |  |
  1       1    x     x      x           x       1  1   x  x  1  1    x  x
  x       2    x     2      x           2       x  2   x  2  x  2    x  2
+\end{verbatim}
+
+2.a)
+\begin{verbatim}
+               fork()
+               /    \
+            fork()       fork()
+            /   \        /    \
+          fork  fork   fork  fork
+         /  \    / \    / \   /  \
+         f  f    f  f  f  f  f   f
+        /\  /\  / \ /\ /\ /\ /\  /\
+        p p p p p p p ppp pp pp  p p
+\end{verbatim}
+
+2.b)
+\begin{verbatim}
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdio.h>
+int main(int argc, char * argv[]) {
+    int i, cant;
+    pid_t hijo;                            (*)
+    cant = atoi(argv[1]);
+    for (i = 0; i <= cant; i++) {
+        if((hijo = fork()) == 0){          (*)
+            printf("%d\n", i);
+            exit(0);                       (*)
+        }
+    }
+}
+\end{verbatim}
+
+2.c) Si el usuario ejecuta \emph{./cp1 4} se obtienen 5 hijos.
+
+2.d)
+\begin{verbatim}
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdio.h>
+int main(int argc, char * argv[]) {
+    int i, cant;
+    cant = atoi(argv[1]);
+    pid_t hijo, fin[cant];                 (*)
+    
+    for (i = 0; i <= cant; i++) {
+        if((hijo = fork()) == 0){          (*)
+            printf("%d\n", i);
+            exit(0);                       (*)
+        }
+    }
+    
+    for (i = 0; i <= cant; i++){           (*)
+        fin[i]=wait(&estado);              (*)
+        printf("Termino hijo: %d", fin[i]);(*)
+    }
+}
 \end{verbatim}
 
 3.a)Al no fallar ``execlp ("kcalc", "kcalc", NULL);''
@@ -110,4 +181,6 @@ Final
 Hijo terminado
 \end{verbatim}
 6)Tanto \textbf{hijo1} como \textbf{hijo2} se convierten en hu\'erfanos
+
+10) Los procesos zombies son: hijo1 e hijo2. hijo4 queda hu\'erfano.
 \end{document}
