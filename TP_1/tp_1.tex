@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{verbatim}
+\usepackage{moreverb}
 \usepackage[spanish]{babel}
 \title{\Huge{Gesti\'on de Procesos en C}}
 \author{\Large{Fern\'andez Hunko, Diego Ra\'ul}}
@@ -60,7 +61,7 @@ pid2=fork() pid2=fork() pid2=fork  pid2=fork() pid2   pid2  pid2    pid2
 \end{verbatim}
 
 2.b)
-\begin{verbatim}
+\begin{listing}{1}
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -75,12 +76,12 @@ int main(int argc, char * argv[]) {
         }
     }
 }
-\end{verbatim}
+\end{listing}
 
 2.c) Si el usuario ejecuta \emph{./cp1 4} se crean 5 procesos hijos.
 
 2.d)
-\begin{verbatim}
+\begin{listing}{1}
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -101,13 +102,13 @@ int main(int argc, char * argv[]) {
         printf("Termino hijo: %d", fin[i]);(*)
     }
 }
-\end{verbatim}
+\end{listing}
 
 3.a)Al no fallar ``execlp ("kcalc", "kcalc", NULL);''
 la imagen del proceso es reemplazada por \emph{``kcalc''}.\\
 
 3.b)
-\begin{verbatim}
+\begin{listing}{1}
 #include<sys/types.h>
 #include<sys/wait.h>
 #include<unistd.h>
@@ -124,9 +125,9 @@ int main (int argc, char *argv[]) {
         }
         return 0;
 }
-\end{verbatim}
+\end{listing}
 3.b)
-\begin{verbatim}
+\begin{listing}{1}
 #include<sys/types.h>
 #include<sys/wait.h>
 #include<unistd.h>
@@ -152,7 +153,7 @@ int main (int argc, char *argv[]) {
                                   WEXITSTATUS(estado2)); (*)
         return 0;
 }
-\end{verbatim}
+\end{listing}
 
 3.d
 \begin{verbatim}
