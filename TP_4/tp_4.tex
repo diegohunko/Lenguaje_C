@@ -1,0 +1,41 @@
+\documentclass[a4paper, twoside]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\title{\Huge{Interbloqueos (Deadlock)}}
+\author{\Large{Fern\'andez Hunko, Diego Ra\'ul}}
+\begin{document}
+\maketitle
+\lhead{\small{\textbf{Sistemas Operativos 2015}}}
+\rfoot{\footnotesize{Diego Ra\'ul Fern\'andez Hunko}}
+
+\begin{tabular}{l l}
+\textbf{\large{Materia}} & \large{Sistemas Operativos} \\
+\textbf{\large{Profesor Titular}} & \large{Ing. Rub\'en L.M.Casta\~no} \\      
+\textbf{\large{JTP}} & \large{Ing. Roberto A. Mi\~no} \\
+\textbf{\large{Ayudante 1ra}} & \large{Lic. Claudio O. Biale} \\
+\end{tabular}
+
+\newpage
+
+1)\\
+\begin{tabular}{c||c|c|c|c||c|c|c|c||c|c|c|c||c|c|c|c||c|c|c|}
+\multirow{2}{*}{Procesos} & \multicolumn{4}{|c||}{Asignado} & \multicolumn{4}{|c||}{M\'aximo}
+ & \multicolumn{4}{|c||}{Necesidad} & \multicolumn{4}{|c||}{Disponible}
+ & \multicolumn{3}{|c|}{Final}\\
+ & A & B & C & D & A & B & C & D & A & B & C & D & A & B & C & D & 1 & 2 & 3 \\
+ $P_1$ & 0 & 0 & 1 & 1 & 1 & 1 & 2 & 2 & 1 & 1 & 1 & 1 & 1 & 5 & 6 & 2 & F & V &---\\
+ $P_2$ & 1&0&1&0 & 1&7&5&0 & 0&7&4&0 & 3&8&13&10 & F&F&V\\
+ $P_3$ & 1&3&5&4 & 2&3&5&6 & 1&0&0&2 & 2&8&11&6 & F&V&---\\
+ $P_4$ & 0&2&3&1 & 0&4&5&1 & 0&2&2&0 & 1&5&5&1 & V&---&---\\
+ $P_5$ & 0&0&1&4 & 0&6&5&6 & 0&6&4&2 & 2&8&12&10 & F&V&---\\
+\end{tabular}
+
+
+\end{document}
