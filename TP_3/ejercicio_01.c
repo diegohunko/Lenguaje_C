@@ -64,11 +64,11 @@ int main(int argc, char **argv)
 				close(tubo[1]);
 				close(tubo2[0]);
 				read(tubo[0], &numero, sizeof(numero));
-				while (numero >= 4){
-					if ((numero / 4) == 0){
+				for (i = 4; i <= numero; i++){
+					if ((i / 4) == 0){
 						divisible++;
 					}
-					numero--;
+					//numero--;
 				}
 			}else{
 				close(tubo[0]);
