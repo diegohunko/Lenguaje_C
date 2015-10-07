@@ -37,13 +37,51 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+
+int cargarEntero(void){
+    int i;
+    char valor[3];
+    scanf("%2s", valor);
+    while (getchar() != '\n');
+    i = atoi(valor);
+    if (i <= 0)
+        i = -1;
+    return i;
+}
+
 int main(int argc, char **argv)
 {
-        int tubo[2]
-        while (j < 10){
-                
-                j++;
-        }
+	int tubo[2], tubo2[2], j, numero, divisible;
+    pid_t hijo;
+    while (j < 10){
+		numero = cargarEntero();
+		if (numero < 0){
+			printf("Error\n");
+			exit(1);
+		}else{
+			pipe(tubo);
+			if((hijo = fork()) == 0){
+				close(tubo[1]);
+				close(tubo2[0]);
+				read(tubo[0], &numero, sizeof(numero));
+				while (numero >= 4){
+					if ((numero / 4) == 0){
+						divisible++;
+					}
+					numero--;
+				}
+			}else{
+				close(tubo[0]);
+				close(tubo2[1]);
+				write(tubo[1], &numero, sizeof(numero));
+				read(tubo2[0], &divisible, sizeof(divisible));
+				printf("Hay %d numeros divisible entre 4 y %d\n", divisible, numero);
+			}
+			
+		}
+		
+        j++;
+    }
 	
 	return 0;
 }
