@@ -40,8 +40,8 @@
 
 int cargarEntero(void){
     int i;
-    char valor[3];
-    scanf("%2s", valor);
+    char valor[4];
+    scanf("%3s", valor);
     while (getchar() != '\n');
     i = atoi(valor);
     if (i <= 0)
