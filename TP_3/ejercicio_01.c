@@ -51,7 +51,7 @@ int cargarEntero(void){
 
 int main(int argc, char **argv)
 {
-	int tubo[2], tubo2[2], j, numero, divisible;
+	int tubo[2], tubo2[2], j, numero, divisible, i;
     pid_t hijo;
     while (j < 10){
 		numero = cargarEntero();
@@ -66,6 +66,7 @@ int main(int argc, char **argv)
 				read(tubo[0], &numero, sizeof(numero));
 				for (i = 4; i <= numero; i++){
 					if ((i / 4) == 0){
+					}else{
 						divisible++;
 					}
 					//numero--;
