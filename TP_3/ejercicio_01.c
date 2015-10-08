@@ -77,7 +77,7 @@ int main(int argc, char **argv)
 						printf("i= %d, divisible= %d\n", i, divisible);
 						
 					}
-					printf("i= %d, divisible= %d\n", i, divisible);
+					//printf("i= %d, divisible= %d\n", i, divisible);
 					//numero--;
 				}
 				printf("i= %d, numero= %d, divisible= %d\n", i, numero, divisible);
