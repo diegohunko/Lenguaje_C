@@ -59,7 +59,7 @@ int main(int argc, char **argv)
 		numero = cargarEntero();
 		if (numero < 0){
 			printf("Error\n");
-			exit(1);
+			//exit(1);
 		}else{
 			pipe(tubo);
 			if((hijo = fork()) == 0){
@@ -94,10 +94,10 @@ int main(int argc, char **argv)
 				read(tubo2[0], &divisible, sizeof(divisible));
 				printf("Hay %d numeros divisible entre 4 y %d\n", divisible, numero);
 			}
-			
+		j++;
 		}
 		
-        j++;
+        
     }
 	
 	return 0;
