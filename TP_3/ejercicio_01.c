@@ -51,9 +51,11 @@ int cargarEntero(void){
 
 int main(int argc, char **argv)
 {
-	int tubo[2], tubo2[2], j, numero, divisible, i;
+	int tubo[2], tubo2[2], j, numero, divisible, i, estado;
     pid_t hijo;
+    
     while (j < 10){
+        printf("divisible= %d. Ingrese un numero entero: ", divisible);
 		numero = cargarEntero();
 		if (numero < 0){
 			printf("Error\n");
@@ -61,20 +63,34 @@ int main(int argc, char **argv)
 		}else{
 			pipe(tubo);
 			if((hijo = fork()) == 0){
+				printf("ENTRE EN HIJO, CIERRO DESCRIPTORES\n");
+				divisible = 0;
 				close(tubo[1]);
 				close(tubo2[0]);
+				printf("LEO NUMERO\n");
 				read(tubo[0], &numero, sizeof(numero));
-				for (i = 4; i <= numero; i++){
-					if ((i / 4) == 0){
-					}else{
-						divisible++;
+				printf("numero= %d\n", numero);
+				for (i = numero; i >= 4; i--){
+					if ((i % 4 == 0)){
+					//}else{
+						divisible += 1;
+						printf("i= %d, divisible= %d\n", i, divisible);
+						
 					}
+					printf("i= %d, divisible= %d\n", i, divisible);
 					//numero--;
 				}
+				printf("i= %d, numero= %d, divisible= %d\n", i, numero, divisible);
+				write(tubo2[1], &divisible, sizeof(divisible));
+				exit(0);
 			}else{
+				//wait(&estado);
+				printf("ENTRE EN PADRE, CIERRO DESC.\n");
 				close(tubo[0]);
 				close(tubo2[1]);
 				write(tubo[1], &numero, sizeof(numero));
+				wait(&estado);
+				printf("divisible= %d\n",divisible);
 				read(tubo2[0], &divisible, sizeof(divisible));
 				printf("Hay %d numeros divisible entre 4 y %d\n", divisible, numero);
 			}
