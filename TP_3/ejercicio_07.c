@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 		kill(getppid(), SIGUSR1);
 		for (i=0; i<=20; i+=2){
 			printf("hijo: %d\n", i);
-			pause();
+		//	pause();
 			
 			
 		}
