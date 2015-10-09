@@ -51,7 +51,7 @@ int cargarEntero(void){
 
 int main(int argc, char **argv)
 {
-	int tubo[2], tubo2[2], j, numero, divisible, i, estado;
+	int tubo[2], tubo2[2], j, numero, divisible, i;
     pid_t hijo;
     
     while (j < 10){
@@ -89,7 +89,7 @@ int main(int argc, char **argv)
 				close(tubo[0]);
 				close(tubo2[1]);
 				write(tubo[1], &numero, sizeof(numero));
-				wait(&estado);
+				//wait(&estado);
 				printf("divisible= %d\n",divisible);
 				read(tubo2[0], &divisible, sizeof(divisible));
 				printf("Hay %d numeros divisible entre 4 y %d\n", divisible, numero);

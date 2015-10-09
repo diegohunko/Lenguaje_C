@@ -34,27 +34,28 @@
 
 int main(int argc, char **argv)
 {
-	int fd1[2], fd2[2], estado2;
+	int fd1[2], fd2[2]; /*estado2*/
 	pid_t hijo, nieto;
-	printf("//creamos las tuberias\n");
+	//printf("//creamos las tuberias\n");
 	if (pipe(fd1) == -1){
 		printf("pipe fd1\n");
 	}
-	printf("%d, %d\n", fd1[0], fd1[1]);
-	if (pipe(fd2)==-1){
-		printf("pipe fd2\n");
-	}
-	printf("%d, %d\n", fd2[0], fd2[1]);
-	printf("//creamos hijo\n");
+	//printf("%d, %d\n", fd1[0], fd1[1]);
+	
+	//printf("%d, %d\n", fd2[0], fd2[1]);
+	//printf("//creamos hijo\n");
 	if ((hijo = fork()) == 0){
-		printf("//creamos el nieto\n");
+		//printf("//creamos el nieto\n");
+		if (pipe(fd2)==-1){
+			printf("pipe fd2\n");
+		}
 		if ((nieto = fork())==0){
 			//ejecutamos codigo del nieto
-			printf("//cerramos el extremo de lectura de fd2\n");
+			//printf("//cerramos el extremo de lectura de fd2\n");
 			if (close(fd2[0])==-1)
 				printf("close fd2\n");
 			
-			printf("//duplicamos el extremo de escritura de fd2\n");
+			//printf("//duplicamos el extremo de escritura de fd2\n");
 			if (fd2[1] != STDOUT_FILENO){
 				if (dup2(fd2[1], STDOUT_FILENO)==-1){
 					printf("dup2 en nieto");
@@ -65,27 +66,27 @@ int main(int argc, char **argv)
 				//	exit(1);
 				//}
 			}
-			printf("//ejecutamos ls -l\n");
+			//printf("//ejecutamos ls -l\n");
 			execlp("ls", "ls", "-l", NULL);
 			
 		}else{
 			//ejecutamos codigo del hijo
-			printf("//cerramos extremo de escritura para fd2\n");
+			//printf("//cerramos extremo de escritura para fd2\n");
 			if (close(fd2[1]) == -1){
 				printf("close fd1\n");
 				exit(1);
 			}
-			printf("//duplicamos descriptor de lectura\n");
+			//printf("//duplicamos descriptor de lectura\n");
 			if (fd2[0] != STDIN_FILENO){
 				if (dup2(fd2[0], STDIN_FILENO) == -1)
 					printf("dup2 en hijo\n");
 				//if (close(fd1[0]) == -1)
 				//	printf("close fd10\n");
 			}
-			printf("//cerramos extremo de lectura para fd1\n");
+			//printf("//cerramos extremo de lectura para fd1\n");
 			if (close(fd1[0]) == -1)
 				printf("close fd2\n");
-			printf("//duplicamos descriptor de escritura para fd1\n");
+			//printf("//duplicamos descriptor de escritura para fd1\n");
 			if (fd1[1]!=STDOUT_FILENO){
 				if (dup2(fd1[1], STDOUT_FILENO)==-1)
 					printf("dup2 para escritura\n");
@@ -93,17 +94,17 @@ int main(int argc, char **argv)
 				//	printf("close fd2[1]\n");
 			}
 			
-			printf("//ejecucion de grep ^d\n");
+			//printf("//ejecucion de grep ^d\n");
 			execlp("grep", "grep", "^d", NULL);
 		}
 		
 	}else{
-		printf("//ejecutamos codigo del padre\n");
-		printf("//cerramos el extremo de escritura de fd1\n");
+		//printf("//ejecutamos codigo del padre\n");
+		//printf("//cerramos el extremo de escritura de fd1\n");
 		if (close(fd1[1]) == -1)
 			printf("close fd1[1]\n");
 		
-		printf("//duplicamos entrada estandar para el padre, fd1\n");
+		//printf("//duplicamos entrada estandar para el padre, fd1\n");
 		if (fd1[0] != STDIN_FILENO) {
 			if (dup2(fd1[0], STDIN_FILENO) == -1)
 				printf("dup2 padre\n");
@@ -111,7 +112,7 @@ int main(int argc, char **argv)
 			//	printf("close fd1[1]\n");
 		}
 		//wait(&estado2);
-		printf("//ejecutamos ls -l\n");
+		//printf("//ejecutamos ls -l\n");
 		execlp("more", "more", NULL);
 		printf("Error en ls");
 	}
