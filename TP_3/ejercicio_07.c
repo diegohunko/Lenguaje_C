@@ -35,10 +35,36 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <signal.h>
+#include <unistd.h>
+void manejame_esta(int sig);
 
 int main(int argc, char **argv)
 {
-	
+	pid_t hijo; int i, j;
+	if ((hijo = fork()) == 0){
+		//do something kid
+		signal(SIGUSR1, manejame_esta);
+		kill(getppid(), SIGUSR1);
+		for (i=0; i<=20; i+=2){
+			printf("hijo: %d\n", i);
+			pause();
+			
+			
+		}
+		
+	}else{
+		//do something dad
+		signal(SIGUSR1, manejame_esta);
+		kill(getppid(), SIGUSR1);
+		for (j=0; j<=20; j+=2){
+			printf("padre: %d\n", j);
+			pause();
+			
+		}
+	}
 	return 0;
 }
 
+void manejame_esta(sig){
+	
+}
