@@ -36,29 +36,41 @@
 #include <sys/types.h>
 #include <signal.h>
 #include <unistd.h>
-void manejame_esta(int sig);
+void manejame_esta_papa(int sig);
+void manejame_esta_nene(int sig);
+
+int i;
 
 int main(int argc, char **argv)
 {
-	pid_t hijo; int i;
+	pid_t hijo;
 	if ((hijo = fork()) == 0){
 		//do something kid
-		signal(SIGUSR1, manejame_esta);
-		kill(getppid(), SIGUSR1);		
-	}else{
-		//do something dad
-		//pause();
-		signal(SIGUSR1, manejame_esta);
-		//printf("padre\n");
-		kill(getppid(), SIGUSR1);
+		
+		if (signal(SIGUSR1, manejame_esta_nene) == SIG_ERR){
+			perror("Error en el manejo de la señal :'(");
+			exit(1);
+		}else{
+			printf("Hijo: %d", contador);
+		}
+		while (1){
+			pause();
+		}
+		//kill(getppid(), SIGUSR1);
+		
 	}
-	for(i=1;i<=20;i++){
+	//do something dad
+	//pause();
+	signal(SIGUSR1, manejame_esta);
+	//printf("padre\n");
+	kill(getppid(), SIGUSR1);
+	/*for(i=1;i<=20;i++){
 		printf("%d\n",i);
 	}
-	scanf("%d", &i);
+	scanf("%d", &i);*/
 	return 0;
 }
 
-void manejame_esta(sig){
+void manejame_esta_papa(sig){
 	printf("que haces\n");
 }
