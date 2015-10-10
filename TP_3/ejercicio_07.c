@@ -31,7 +31,7 @@
  * Los procesos deben sincronizarse mediante el envío de la señal SIGUSR1.
  * 
  * */
-
+//http://pastebin.com/cmj20tDA
 #include <stdio.h>
 #include <sys/types.h>
 #include <signal.h>
@@ -55,11 +55,10 @@ int main(int argc, char **argv)
 			exit(1);
 		}
 		printf("bucle infinito\n");
-		while (1){
-			pause();
-		}
-		exit(0);
-	}else{
+		while (1)
+		pause();
+		
+	}//else{
 	//do something dad
 		printf("entro en padre. %d\n", i);
 		printf("mando SIGUSR1");
@@ -69,25 +68,27 @@ int main(int argc, char **argv)
 			exit(1);
 		}
 		
-		while (1){
-			
-			pause();
-		}
+		while (1)
+		pause();
 		
-	}
-	wait(NULL);
+		
+	//}
+	//wait(NULL);
 	printf("llego al final\n");
 	return 0;
 }//fin main
 
 void manejame_esta_papa(sig){
-	if (signal(SIGUSR1, manejame_esta_papa)== SIG_ERR){
+	/*if (signal(SIGUSR1, manejame_esta_papa)== SIG_ERR){
 		perror("Error en manejo.");
 		exit(1);
-	}
-	while (((i%2)!=0)&&(i<=20)){
-		printf("Padre: %d\n", i);
-		i++;
+	}*/
+	if (sig == SIGUSR1){
+		while (((i%2)!=0)&&(i<=20)){
+			printf("Padre: %d\n", i);
+			i+=2;
+			
+		}
 	}
 	exit(0);
 }
@@ -95,14 +96,16 @@ void manejame_esta_papa(sig){
 void manejame_esta_nene(sig){
 	static int contador = 2;
 	printf("Entre en el manejador del hijo. cont: %d\n", contador);
-	if ( signal(SIGUSR1, manejame_esta_nene) == SIG_ERR) {
+	/*if ( signal(SIGUSR1, manejame_esta_nene) == SIG_ERR) {
       perror("Error instalando manejadorHijo - ");
       exit(-1);
-	}
-	while (((contador % 2) == 0)&&(contador <= 20)){
-		printf("Hijo: %d\n", contador);
-		contador+=2;
-		kill(getppid(), SIGUSR1);
+	}*/
+	if (sig == SIGUSR1){
+		while (((contador % 2) == 0)&&(contador <= 20)){
+			printf("Hijo: %d\n", contador);
+			contador+=2;
+			kill(getppid(), SIGUSR1);
+		}
 	}
 	exit(0);	
 }
