@@ -31,7 +31,7 @@
  * Los procesos deben sincronizarse mediante el envío de la señal SIGUSR1.
  * 
  * */
-//http://pastebin.com/cmj20tDA
+//ejercicio_07.c en pastebin: http://pastebin.com/cmj20tDA
 #include <stdio.h>
 #include <sys/types.h>
 #include <signal.h>
