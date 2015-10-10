@@ -40,31 +40,25 @@ void manejame_esta(int sig);
 
 int main(int argc, char **argv)
 {
-	pid_t hijo; int i, j;
+	pid_t hijo; int i;
 	if ((hijo = fork()) == 0){
 		//do something kid
 		signal(SIGUSR1, manejame_esta);
-		kill(getppid(), SIGUSR1);
-		for (i=0; i<=20; i+=2){
-			printf("hijo: %d\n", i);
-		//	pause();
-			
-			
-		}
-		
+		kill(getppid(), SIGUSR1);		
 	}else{
 		//do something dad
+		//pause();
 		signal(SIGUSR1, manejame_esta);
+		//printf("padre\n");
 		kill(getppid(), SIGUSR1);
-		for (j=0; j<=20; j+=2){
-			printf("padre: %d\n", j);
-			pause();
-			
-		}
 	}
+	for(i=1;i<=20;i++){
+		printf("%d\n",i);
+	}
+	scanf("%d", &i);
 	return 0;
 }
 
 void manejame_esta(sig){
-	
+	printf("que haces\n");
 }
