@@ -52,7 +52,7 @@
 int i;
 
 void funcion(int sig){
-	execlp("grep", "grep", argv[1], argv[i+2], NULL);
+	//execlp("grep", "grep", argv[1], argv[i+2], NULL);
 }
 
 int main(int argc, char **argv)
