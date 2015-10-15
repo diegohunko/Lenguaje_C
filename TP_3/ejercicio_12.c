@@ -46,8 +46,10 @@ int main(int argc, char **argv)
 			perror("changos");
 			exit(1);
 		}
-		while (1)
+		while (1){
 			printf("Mi PID= %d\n", getpid());
+			sleep(1);
+		}
 		pause();
 	}
 	printf("apolillo\n");

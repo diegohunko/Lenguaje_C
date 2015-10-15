@@ -45,16 +45,16 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <wait.h>
 #include <stdlib.h>
-#include <signal.h>
-
+#include <ctype.h>
+#include <string.h>
+#include <wait.h>
 int i;
 
-void funcion(int sig){
+/*void funcion(int sig){
 	//execlp("grep", "grep", argv[1], argv[i+2], NULL);
 }
-
+*/
 int main(int argc, char **argv)
 {
 	if (argc != 4){
@@ -74,19 +74,33 @@ int main(int argc, char **argv)
 		if ((hijo[0]=fork()) == 0){
 			if (i != 3){
 				printf("hijo-%d creado, PID= %d, %s\n", i, getpid(), argv[i+2]);
-				if (signal(SIGUSR1, funcion)==SIG_ERR){
+				if (pipa[1] != STDOUT_FILENO){
+					if (dup2(pipa[1], STDOUT_FILENO) == -1){
+						perror("Duplicado de desc.");
+						exit(1);
+					}
+				}
+				printf("descriptores\n");
+				if (signal(SIGUSR1, SIG_DFL)==SIG_ERR){
 					perror("Error");
 					exit(1);
 				}
 				while(1)
 				pause();
 				printf("ejecuta\n");
-				//execlp("grep", "grep", argv[1], argv[i+2], NULL);
+				execlp("grep", "grep", argv[1], argv[i+2], NULL);
 			}
 			if (i==3){
 				//tercer hijo hace algo.
 				printf("hijo-%d creado, PID= %d\n", i, getpid());
-				if (signal(SIGUSR1, funcion)==SIG_ERR){
+				if (pipa[0] != STDIN_FILENO){
+					if (dup2(pipa[0], STDIN_FILENO) == -1){
+						perror("Duplicado de desc.");
+						exit(1);
+					}
+				}
+				printf("descriptores abieertooossssh\n");
+				if (signal(SIGUSR1, SIG_DFL)==SIG_ERR){
 					perror("Error");
 					exit(1);
 				}

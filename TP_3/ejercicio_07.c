@@ -39,41 +39,55 @@
 #include <wait.h>
 #include <stdlib.h>
 void manejame_esta_papa(int sig);
-void manejame_esta_nene(int sig);
+//void manejame_esta_nene(int sig);
 
-int i=1;
+int i=1, contador=2;
 
 int main(int argc, char **argv)
 {
 	pid_t hijo;
-	printf("Soy dios creo un hijo\n");
+	//printf("Soy dios creo un hijo\n");
 	if ((hijo = fork()) == 0){
 		//do something kid
-		printf("veo si manejo la señal\n");
-		if (signal(SIGUSR1, manejame_esta_nene) == SIG_ERR){
+		//printf("veo si manejo la señal\n");
+		if (signal(SIGUSR1, manejame_esta_papa) == SIG_ERR){
 			perror("Error en el manejo de la señal :'(");
 			exit(1);
 		}
-		printf("bucle infinito\n");
-		while (1)
+		while (contador<=20){
+			if ((contador%2) == 0){
+				printf("Hijo: %d, PID=%d\n", contador, getpid());
+				kill(getppid(), SIGUSR1);
+			}
+			
+			if(contador==20)
+				exit(0);
+			contador++;
+		}
 		pause();
-		
-	}//else{
+	}else{
 	//do something dad
-		printf("entro en padre. %d\n", i);
-		printf("mando SIGUSR1");
-		kill(hijo, SIGUSR1);
+		//~ printf("entro en padre. %d\n", i);
+		//~ printf("mando SIGUSR1");
+		
 		if (signal(SIGUSR1, manejame_esta_papa)== SIG_ERR){
 			perror("Papá no sabe manejar una señal :(");
 			exit(1);
 		}
 		
-		while (1)
+		while (i<=20){
+			if ((i%2) != 0){
+				printf("Padre: %d, PID=%d\n", i, getpid());
+				kill(hijo, SIGUSR1);
+			}
+			if(i==20)
+				exit(0);
+			i++;
+		}
 		pause();
 		
-		
-	//}
-	//wait(NULL);
+	}
+	wait(NULL);
 	printf("llego al final\n");
 	return 0;
 }//fin main
@@ -84,28 +98,26 @@ void manejame_esta_papa(sig){
 		exit(1);
 	}*/
 	if (sig == SIGUSR1){
-		while (((i%2)!=0)&&(i<=20)){
-			printf("Padre: %d\n", i);
-			i+=2;
-			
-		}
+		//while (((i%2)!=0)&&(i<=20)){
+			//printf("Padre: %d\n", i);
+		//}
 	}
-	exit(0);
+	//i++;
+	return;
 }
 
-void manejame_esta_nene(sig){
-	static int contador = 2;
+/*void manejame_esta_nene(sig){
 	printf("Entre en el manejador del hijo. cont: %d\n", contador);
-	/*if ( signal(SIGUSR1, manejame_esta_nene) == SIG_ERR) {
+	if ( signal(SIGUSR1, manejame_esta_nene) == SIG_ERR) {
       perror("Error instalando manejadorHijo - ");
       exit(-1);
-	}*/
-	if (sig == SIGUSR1){
-		while (((contador % 2) == 0)&&(contador <= 20)){
-			printf("Hijo: %d\n", contador);
-			contador+=2;
-			kill(getppid(), SIGUSR1);
-		}
 	}
-	exit(0);	
-}
+	if (sig == SIGUSR1){
+		//~ if ((contador % 2) == 0){
+			//~ printf("Hijo: %d\n", contador);
+			//~ contador+=2;
+			//~ //kill(getppid(), SIGUSR1);
+		//~ }
+	}
+	return;	
+}*/
