@@ -42,7 +42,7 @@ void *horaInicio(void *arg){
 	}
 	//tiempo = *tiempop;
 	printf("Hora de inicio: %s\n", asctime(tiempop));//tp.tm_hour, tp.tm_min, tp.tm_sec, tp.tm_mday, tp.tm_mon, tp.tm_year + 1900);
-	sleep(5);
+	sleep(10);
 	pthread_exit(0);
 }
 int main(int argc, char **argv)
@@ -56,6 +56,7 @@ int main(int argc, char **argv)
 	}
 	for (i = 0; i < limite; i++){
 		pthread_create(&hilos[i], NULL, horaInicio, NULL);
+		printf("hilo-%d: %ld\n", i, hilos[i]);
 	}
 	for (i = 0; i<limite; i++){
 		pthread_join(hilos[i], NULL);
