@@ -40,7 +40,7 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
-int divisible=0;
+int divisible;
 
 void *funcionDivisible(void *arg){
 	int i, numero = (int)arg;
@@ -67,15 +67,17 @@ int cargarEntero(void){
 }
 
 int main(int argc, char **argv)
-{s
+{
 	pthread_t filo;
 	int j = 0, un = 0;
 	while (j<10){
+		printf("Ingrese un número entero: ");
 		if ((un = cargarEntero()) == -1){
 			perror("valor incorrecto");
 			exit(-1);
 			
 		}
+		divisible=0;
 		pthread_create(&filo, NULL, funcionDivisible, &un);
 		printf("Hay %d numeros divisible entre 4 y %d.\n", divisible, un);
 		j++;
