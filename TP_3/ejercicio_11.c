@@ -50,6 +50,7 @@
 #include <signal.h>
 int main(int argc, char **argv)
 {
+	int i;
 	if (argc != 4){
 		perror("USO: ./ejercicio_11 palabra fichero1 fichero2\n");
 		exit(1);
@@ -64,19 +65,26 @@ int main(int argc, char **argv)
 	printf("tuberia creada\n");
 	if ((hijo1 = fork()) == 0){
 		printf("hijo1 creado\n");
-		/*if(dup2(pipa[1], STDOUT_FILENO) == -1){
+		if(dup2(pipa[1], STDOUT_FILENO) == -1){
 			perror("pipa");
 			exit(1);
 		}
-		close(pipa[0]);*/
+		close(pipa[0]); printf("CIERO\n");
+		printf("ejecuto\n");
 		execlp("grep", "grep", argv[1], argv[2], NULL);
+	}
+	if (pipe(pipa)==-1){
+		perror("ERROR EN CREACION DE TUBERIA\n");
+		exit(1);
 	}
 	if ((hijo2 = fork()) == 0){
 		printf("hijo2 creado\n");
-		/*if(dup2(pipa[1], STDOUT_FILENO) == -1){
+		if(dup2(pipa[1], STDOUT_FILENO) == -1){
 			perror("pipa 2");
 			exit(1);
-		}*/
+		}
+		close(pipa[0]); printf("CIERO\n");
+		printf("ejecuto\n");
 		execlp("grep", "grep", argv[1], argv[3], NULL);
 	}
 	if ((hijo3 = fork()) == 0){
@@ -86,10 +94,10 @@ int main(int argc, char **argv)
 			exit(1);
 		}
 		close(pipa[1]);
+		execlp("wc","wc","-l",NULL);
 	}
-	wait(NULL);
-	wait(NULL);
-	wait(NULL);
+	for (i=0; i<3; i++)
+		wait(NULL);
 	return 0;
 }
 

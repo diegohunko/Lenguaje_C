@@ -21,6 +21,14 @@
  * 
  */
 
+/*
+ * 6) Dado el programa denominado hilos.c que ejecuta una serie de hilos
+ * que se especifica por linea de comandos. Cada hilo obtiene la hora en
+ * que comienza a correr y sigue corriendo hasta que pasan 5 segundos.
+ * 
+ */
+
+
 
 #include <stdio.h>
 #include <pthread.h>

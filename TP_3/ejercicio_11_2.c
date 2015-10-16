@@ -51,61 +51,75 @@
 #include <wait.h>
 int i;
 
-/*void funcion(int sig){
+void funcion(int sig){
+	//~ if (sig == SIGUSR1){
+		//~ raise(SIGCONT);
+	//~ }
+	printf("Buenas\n");
+	return;
 	//execlp("grep", "grep", argv[1], argv[i+2], NULL);
 }
-*/
+
 int main(int argc, char **argv)
 {
+	pid_t hijo[3];
+	int pipa[2], estado;
 	if (argc != 4){
 		perror("USO: ./ejercicio_11 palabra fichero1 fichero2\n");
 		exit(1);
 	}
-	pid_t hijo[3];
-	int pipa[2];
-	printf("PID: %d, PPID: %d, PGID: %d\n", getpid(), getppid(), getpgid(getpid()));
 	
 	if (pipe(pipa)==-1){
 		perror("ERROR EN CREACION DE TUBERIA\n");
 		exit(1);
 	}
+	printf("PID: %d, PPID: %d, PGID: %d\n", getpid(), getppid(), getpgid(getpid()));
+	
 	printf("tuberia creada\n");
-	for (i = 1; i <= 3; i++){
-		if ((hijo[0]=fork()) == 0){
-			if (i != 3){
+	for (i = 0; i < 3; i++){
+		if ((hijo[i]=fork()) == 0){
+			printf("i=%d\n", i);
+			if (i < 2){
 				printf("hijo-%d creado, PID= %d, %s\n", i, getpid(), argv[i+2]);
+				
+				//raise(SIGSTOP);
+				//printf("pipa[1]=%d\n", pipa[1]);
+				if (signal(SIGUSR1, funcion)==SIG_ERR){
+					perror("Error");
+					exit(1);
+				}
 				if (pipa[1] != STDOUT_FILENO){
 					if (dup2(pipa[1], STDOUT_FILENO) == -1){
 						perror("Duplicado de desc.");
 						exit(1);
 					}
 				}
-				printf("descriptores\n");
-				if (signal(SIGUSR1, SIG_DFL)==SIG_ERR){
-					perror("Error");
-					exit(1);
-				}
 				while(1)
+					printf("xax\n");
 				pause();
 				printf("ejecuta\n");
 				execlp("grep", "grep", argv[1], argv[i+2], NULL);
 			}
-			if (i==3){
+			if (i==2){
 				//tercer hijo hace algo.
 				printf("hijo-%d creado, PID= %d\n", i, getpid());
+				
+				//printf("descriptores abieertooossssh\n");
+				//raise(SIGSTOP);
+				if (signal(SIGUSR1, funcion)==SIG_ERR){
+					perror("Error");
+					exit(1);
+				}
 				if (pipa[0] != STDIN_FILENO){
 					if (dup2(pipa[0], STDIN_FILENO) == -1){
 						perror("Duplicado de desc.");
 						exit(1);
 					}
 				}
-				printf("descriptores abieertooossssh\n");
-				if (signal(SIGUSR1, SIG_DFL)==SIG_ERR){
-					perror("Error");
-					exit(1);
-				}
 				while(1)
+					//printf("sdsd\n");
 				pause();
+				execlp("wc","wc","-l", NULL);
 			}
 		}
 	}
@@ -134,15 +148,18 @@ int main(int argc, char **argv)
 		}
 		close(pipa[1]);
 	}*/
-	for (i = 1; i<=3; i++){
-		printf("envio señal a: hijo-%d\n", i);
-		kill(hijo[i], SIGUSR1);
+	//~ for (i=0; i<3; i++)
+		//~ wait(NULL);
+	sleep(5);
+	for (i = 0; i < 3; i++){
+		printf("envio señal a: hijo-%d\n", i+1);
+		if (kill(hijo[i], SIGUSR1) != 0){
+			perror("error kill");
+			exit(1);
+		}
+		wait(&estado);
 	}
-	/*
-	wait(NULL);
-	wait(NULL);
-	wait(NULL);
-	*/
+	
 	return 0;
 }
 
