@@ -40,10 +40,13 @@ int main(int argc, char **argv)
 	pid_t hijo1, hijo2, hijo3, hijo4;
 	if ((hijo1 = fork()) == 0){           //creacion de hijo1
 		if ((hijo3 = fork()) == 0){       //creacion de hijo3
+			printf("Hijo3 PID= %d, GID= %d\n", getpid(), getpgid(getpid()));
 			sleep(10);                    //hijo3 duerme 10''
 		}else{
-			setgid(getpid());
+			setpgid(getpid(), 0);
+			printf("Hijo1 PID= %d, GID= %d\n", getpid(), getpgid(getpid()));
 			if ((hijo4 = fork()) == 0){   //creacion de hijo4
+				printf("Hijo4 PID= %d, GID= %d\n", getpid(), getpgid(getpid()));
 				sleep(10);                //hijo4 duerme 10''
 			}else{
 				exit(0);                  //hijo1 termina
@@ -51,8 +54,10 @@ int main(int argc, char **argv)
 		}
 	}else{
 		if((hijo2 = fork()) == 0){        //creación hijo2
+			printf("Hijo2 PID= %d, GID= %d\n", getpid(), getpgid(getpid()));
 			sleep(10);                    //hijo2 duerme 10''
 		}else{
+			printf("Padre PID= %d, GID= %d\n", getpid(), getpgid(getpid()));
 			sleep(20);                    //pardre duerme 20''
 			exit(0);
 		}
