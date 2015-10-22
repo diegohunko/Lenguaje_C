@@ -18,7 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  * 
- * 
+ * 4) Implemente el siguiente comando usando tuberías sin nombre:
+ * ls -l | grep ^d | more
  */
 
 
