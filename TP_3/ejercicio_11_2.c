@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 	pid_t hijo[3];
 	int pipa[2], estado;
 	if (argc != 4){
-		perror("USO: ./ejercicio_11 palabra fichero1 fichero2\n");
+		perror("USO: ./ejercicio_11_2 palabra fichero1 fichero2\n");
 		exit(1);
 	}
 	
@@ -93,10 +93,13 @@ int main(int argc, char **argv)
 						perror("Duplicado de desc.");
 						exit(1);
 					}
+					close(pipa[1]);
+					close(pipa[0]);
 				}
-				while(1)
-					printf("xax\n");
-				pause();
+				while(1)/*{
+					printf("xax %d\n", getpid());
+					pause();
+				}*/
 				printf("ejecuta\n");
 				execlp("grep", "grep", argv[1], argv[i+2], NULL);
 			}
@@ -115,10 +118,14 @@ int main(int argc, char **argv)
 						perror("Duplicado de desc.");
 						exit(1);
 					}
+					close(pipa[1]);
+					close(pipa[0]);
 				}
-				while(1)
-					//printf("sdsd\n");
-				pause();
+
+				while(1)/*{
+					printf("sdsd %d\n", getpid());
+					pause();
+				}*/
 				execlp("wc","wc","-l", NULL);
 			}
 		}
@@ -152,14 +159,17 @@ int main(int argc, char **argv)
 		//~ wait(NULL);
 	sleep(5);
 	for (i = 0; i < 3; i++){
-		printf("envio señal a: hijo-%d\n", i+1);
+		printf("envio señal a: hijo-%d\n", i);
 		if (kill(hijo[i], SIGUSR1) != 0){
 			perror("error kill");
 			exit(1);
 		}
-		wait(&estado);
+		//wait(&estado);
 	}
-	
+	for (i=0; i<3; i++){
+		if (wait(&estado) == hijo[i])
+			printf("teminó hijo-%d\n", i);
+	}
 	return 0;
 }
 

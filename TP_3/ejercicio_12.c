@@ -47,8 +47,8 @@ int main(int argc, char **argv)
 			exit(1);
 		}
 		while (1){
-			printf("Mi PID= %d\n", getpid());
 			sleep(1);
+			printf("Mi PID= %d\n", getpid());
 		}
 		pause();
 	}
@@ -74,5 +74,4 @@ int main(int argc, char **argv)
 void manejador(sig){
 	if (sig == SIGUSR1)
 		printf("PPID= %d\n", getppid());
-	exit(0);
 }
