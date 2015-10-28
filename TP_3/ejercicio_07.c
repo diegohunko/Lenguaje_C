@@ -39,14 +39,12 @@
 #include <wait.h>
 #include <stdlib.h>
 void manejame_esta_papa(int sig);
-//void manejame_esta_nene(int sig);
 
 int i=1, contador=2;
 
 int main(int argc, char **argv)
 {
 	pid_t hijo;
-	//printf("Soy dios creo un hijo\n");
 	if ((hijo = fork()) == 0){
 		//do something kid
 		//printf("veo si manejo la señal\n");
@@ -58,8 +56,7 @@ int main(int argc, char **argv)
 			
 			if ((contador%2) == 0){
 				pause();
-				printf("Hijo: %d, PID=%d\n", contador, getpid());
-				//pause();
+				printf("Hijo: \t %d, \t PID= \t %d\n", contador, getpid());
 				kill(getppid(), SIGUSR1);
 			}
 			
@@ -67,13 +64,8 @@ int main(int argc, char **argv)
 				exit(0);
 			contador++;
 		}
-		//pause();
-		//kill(getppid(), SIGUSR1);
 	}else{
 	//do something dad
-		//~ printf("entro en padre. %d\n", i);
-		//~ printf("mando SIGUSR1");
-		
 		if (signal(SIGUSR1, manejame_esta_papa)== SIG_ERR){
 			perror("Papá no sabe manejar una señal :(");
 			exit(1);
@@ -81,7 +73,7 @@ int main(int argc, char **argv)
 		
 		while (1){
 			if ((i%2) != 0){
-				printf("Padre: %d, PID=%d\n", i, getpid());
+				printf("Padre: \t %d, \t PID= \t %d\n", i, getpid());
 				kill(hijo, SIGUSR1);
 				pause();
 			}
@@ -89,9 +81,6 @@ int main(int argc, char **argv)
 				exit(0);
 			i++;
 		}
-		//kill(hijo, SIGUSR1);
-		//pause();
-		
 	}
 	wait(NULL);
 	printf("llego al final\n");
@@ -99,31 +88,7 @@ int main(int argc, char **argv)
 }//fin main
 
 void manejame_esta_papa(sig){
-	/*if (signal(SIGUSR1, manejame_esta_papa)== SIG_ERR){
-		perror("Error en manejo.");
-		exit(1);
-	}*/
 	if (sig == SIGUSR1){
-		//while (((i%2)!=0)&&(i<=20)){
-			//printf("Padre: %d\n", i);
-		//}
 	}
-	//i++;
 	return;
 }
-
-/*void manejame_esta_nene(sig){
-	printf("Entre en el manejador del hijo. cont: %d\n", contador);
-	if ( signal(SIGUSR1, manejame_esta_nene) == SIG_ERR) {
-      perror("Error instalando manejadorHijo - ");
-      exit(-1);
-	}
-	if (sig == SIGUSR1){
-		//~ if ((contador % 2) == 0){
-			//~ printf("Hijo: %d\n", contador);
-			//~ contador+=2;
-			//~ //kill(getppid(), SIGUSR1);
-		//~ }
-	}
-	return;	
-}*/
