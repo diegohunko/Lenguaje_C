@@ -54,9 +54,12 @@ int main(int argc, char **argv)
 			perror("Error en el manejo de la señal :'(");
 			exit(1);
 		}
-		while (contador<=20){
+		while (1){
+			
 			if ((contador%2) == 0){
+				pause();
 				printf("Hijo: %d, PID=%d\n", contador, getpid());
+				//pause();
 				kill(getppid(), SIGUSR1);
 			}
 			
@@ -64,7 +67,8 @@ int main(int argc, char **argv)
 				exit(0);
 			contador++;
 		}
-		pause();
+		//pause();
+		//kill(getppid(), SIGUSR1);
 	}else{
 	//do something dad
 		//~ printf("entro en padre. %d\n", i);
@@ -75,16 +79,18 @@ int main(int argc, char **argv)
 			exit(1);
 		}
 		
-		while (i<=20){
+		while (1){
 			if ((i%2) != 0){
 				printf("Padre: %d, PID=%d\n", i, getpid());
 				kill(hijo, SIGUSR1);
+				pause();
 			}
 			if(i==20)
 				exit(0);
 			i++;
 		}
-		pause();
+		//kill(hijo, SIGUSR1);
+		//pause();
 		
 	}
 	wait(NULL);
