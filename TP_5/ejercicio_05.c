@@ -40,18 +40,25 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
-int divisible;
+int divisible[10], ip=0;
 
 void *funcionDivisible(void *arg){
-	int i, numero = (int)arg;
-	for (i = numero; i >= 4; i--){
+	
+	int i, divisibleInt=0, numero = *((int *) arg);
+	
+	for (i = 4; i <= numero; i++){
+		//printf("i=%d, numero=%d, ip=%d\n",i, numero, ip);
 		if ((i % 4 == 0)){
-			divisible += 1;
-			//printf("i= %d, divisible= %d\n", i, divisible);
+			divisibleInt += 1;
+			//printf("i= %d, divisible= %d\n", i, divisibleInt);
 		}
-		printf("i= %d, divisible= %d\n", i, divisible);
+		
 		//numero--;
 	}
+	//printf("funcionDivisible arg=%d\n", (int)arg);
+	divisible[ip]=divisibleInt;
+	//printf("i= %d, divisible= %d\n", i, divisible[ip]);
+	ip++;
 	pthread_exit(0);
 }
 
@@ -68,24 +75,27 @@ int cargarEntero(void){
 
 int main(int argc, char **argv)
 {
-	pthread_t filo;
-	int j = 0, un = 0;
+	pthread_t filo[10];
+	int j = 0, un[10];
 	while (j<10){
 		printf("Ingrese un número entero: ");
-		if ((un = cargarEntero()) == -1){
+		if ((un[j] = cargarEntero()) == -1){
 			perror("valor incorrecto");
 			exit(-1);
 			
 		}
-		divisible=0;
-		pthread_create(&filo, NULL, funcionDivisible, &un);
-		printf("Hay %d numeros divisible entre 4 y %d.\n", divisible, un);
+		//printf("hebras ip=%d, un=%d\n", ip, un[j]);
+		divisible[j]=0;
+		pthread_create(&filo[j], NULL, funcionDivisible, &un[j]);
 		j++;
 	}
 	j=0;
 	while (j<10){
-		pthread_join(filo, NULL);
+		pthread_join(filo[j], NULL);
 		j++;
+	}
+	for(j=0; j<10;j++){
+		printf("Hay %d numeros divisible entre 4 y %d.\n", divisible[j], un[j]);
 	}
 	return 0;
 }
