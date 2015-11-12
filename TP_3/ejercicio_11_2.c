@@ -76,7 +76,7 @@ int main(int argc, char **argv)
 	printf("PID: %d, PPID: %d, PGID: %d\n", getpid(), getppid(), getpgid(getpid()));
 	
 	printf("tuberia creada\n");
-	for (i = 0; i < 3; i++){
+	/*for (i = 0; i < 3; i++){
 		if ((hijo[i]=fork()) == 0){
 			printf("i=%d\n", i);
 			if (i < 2){
@@ -93,15 +93,13 @@ int main(int argc, char **argv)
 						perror("Duplicado de desc.");
 						exit(1);
 					}
-					close(pipa[1]);
+					//close(pipa[1]);
 					close(pipa[0]);
 				}
-				while(1)/*{
-					printf("xax %d\n", getpid());
+				while(1){
 					pause();
-				}*/
-				printf("ejecuta\n");
-				execlp("grep", "grep", argv[1], argv[i+2], NULL);
+					execlp("grep", "grep", argv[1], argv[i+2], NULL);
+				}
 			}
 			if (i==2){
 				//tercer hijo hace algo.
@@ -119,45 +117,74 @@ int main(int argc, char **argv)
 						exit(1);
 					}
 					close(pipa[1]);
-					close(pipa[0]);
+					//close(pipa[0]);
 				}
 
-				while(1)/*{
-					printf("sdsd %d\n", getpid());
+				while(1){
+					//printf("sdsd %d\n", getpid());
 					pause();
-				}*/
-				execlp("wc","wc","-l", NULL);
+					execlp("wc","wc","-l", NULL);
+				}
+
 			}
 		}
-	}
-	/*if ((hijo1 = fork()) == 0){
+	}*/
+	if ((hijo[0] = fork()) == 0){
 		printf("hijo1 creado\n");
+		if (signal(SIGUSR1, funcion)==SIG_ERR){
+			perror("Error");
+			exit(1);
+		}
 		if(dup2(pipa[1], STDOUT_FILENO) == -1){
 			perror("pipa");
 			exit(1);
 		}
 		close(pipa[0]);
-		execlp("grep", "grep", argv[1], argv[2], NULL);
+		while(1){
+			pause();
+			execlp("grep", "grep", argv[1], argv[2], NULL);
+		}
 	}
-	if ((hijo2 = fork()) == 0){
+	if ((hijo[1] = fork()) == 0){
 		printf("hijo2 creado\n");
+		//manejarseñal
+		if (signal(SIGUSR1, funcion)==SIG_ERR){
+			perror("Error");
+			exit(1);
+		}
 		if(dup2(pipa[1], STDOUT_FILENO) == -1){
 			perror("pipa 2");
 			exit(1);
 		}
-		execlp("grep", "grep", argv[1], argv[3], NULL);
+		close(pipa[0]);
+		while(1){
+			pause();
+			execlp("grep", "grep", argv[1], argv[3], NULL);
+		}
 	}
-	if ((hijo3 = fork()) == 0){
+	if ((hijo[2] = fork()) == 0){
 		printf("hijo3 creado\n");
+		//manejar señal
+		if (signal(SIGUSR1, funcion)==SIG_ERR){
+			perror("Error");
+			exit(1);
+		}
 		if (dup2(pipa[0], STDIN_FILENO) == -1){
 			perror("pipa");
 			exit(1);
 		}
 		close(pipa[1]);
-	}*/
+		while(1){
+			//printf("sdsd %d\n", getpid());
+			pause();
+			execlp("wc","wc","-l", NULL);
+		}		
+	}
 	//~ for (i=0; i<3; i++)
 		//~ wait(NULL);
 	sleep(5);
+	close(pipa[0]);
+	close(pipa[1]);
 	for (i = 0; i < 3; i++){
 		printf("envio señal a: hijo-%d\n", i);
 		if (kill(hijo[i], SIGUSR1) != 0){
