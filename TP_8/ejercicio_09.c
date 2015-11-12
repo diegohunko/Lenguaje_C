@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 				//cerrar todo y salir
 				exit(1);
 			}
-			printf("%s Es un directorio\n", infodir->d_name);
+			//printf("%s Es un directorio\n", infodir->d_name);
 		}else if (S_ISFIFO(statbuf.st_mode)){
 			printf("Nombre: %s,\t Tamanio: %d\n", infodir->d_name, (int)statbuf.st_size);
 		}else if (S_ISREG(statbuf.st_mode)){
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 		}
 	}
 	closedir(dirp);
-	//close(fd);
+	close(fd);
 	return 0;
 }
 
