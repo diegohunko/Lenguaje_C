@@ -19,7 +19,8 @@ static RT_TASK tarea1, tarea2, tarea3;
 
 void funcion1(long arg) {
 	while (1) {
-		rt_printk("Nuevo Periodo....\n");    
+		rt_printk("Soy la tarea %d, i = %ld\n", rt_whoami(), i);
+		//rt_printk("Nuevo Periodo....\n");    
 		rt_task_wait_period();
 	}
 	return;

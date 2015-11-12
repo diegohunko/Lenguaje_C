@@ -49,6 +49,7 @@ typedef struct {
 int main(int argc, char **argv)
 {
 	int n;
+	alumno vAlumno[n]
 	printf("Ingrese un numero: ");
 	scanf("%d", n)
 	

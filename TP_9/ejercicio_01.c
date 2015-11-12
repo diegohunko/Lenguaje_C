@@ -26,7 +26,7 @@ MODULE_LICENSE("GPL");
 
 static RT_TASK tarea[LIMITE];
 long i;
-void imprimir (long arg) {
+void imprimir (long i) {
 	rt_printk("Soy la tarea %d, i = %ld\n", rt_whoami(), i);
 	return;
 }
