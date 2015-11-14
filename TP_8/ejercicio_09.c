@@ -76,7 +76,8 @@ int main(int argc, char **argv)
 			printf("Nombre: %s,\t Tamanio: %d\n", infodir->d_name, (int)statbuf.st_size);
 		}else if (S_ISREG(statbuf.st_mode)){
 			//borrar archivo
-			printf("%s es un Archivo regular\n", infodir->d_name);
+			printf("%s es un Archivo regular y sera borrado\n", infodir->d_name);
+			remove(infodir->d_name);
 		}
 	}
 	closedir(dirp);

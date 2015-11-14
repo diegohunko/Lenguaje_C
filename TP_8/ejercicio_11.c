@@ -44,10 +44,13 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 	fd = open(argv[1], O_RDONLY);
+	printf("OPEN %d\n", fd);
 	while (read(fd, &linea, PATH_MAX) != -1){ //reconsiderable
-		//if (strchr(&linea, ':'/*argv[2][0]*/)!=NULL){
+		printf("READ\n");
+		if (strspn(&linea, argv[2])!=0){
 			printf("%s\n", &linea);
-		//}
+		}
+		printf("LEIDO\n");
 	}
 	close(fd);
 	return 0;
