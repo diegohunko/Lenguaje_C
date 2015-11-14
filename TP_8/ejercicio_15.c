@@ -1,3 +1,13 @@
+
+/*15) Implemente un programa que permita crear o borrar un directorio, el programa debe
+ * recibir 2 parámetros que corresponden a:
+ * - opción de creación: c (crear directorio) o e (borrar directorio) y
+ * - el nombre del directorio.
+ * Se debe imprimir el directorio de trabajo y realizar la acción solicitada. Si no se pasan la
+ * cantidad correcta de parámetros se debe mostrar un mensaje de error.
+ * 
+ */
+
 #include <stdio.h>
 #include <limits.h>
 #include <unistd.h>
