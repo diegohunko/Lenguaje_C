@@ -48,11 +48,24 @@ typedef struct {
 
 int main(int argc, char **argv)
 {
-	int n;
-	alumno vAlumno[n]
+	int n, i, promedio = 0;
+	alumno *vAlumno;
 	printf("Ingrese un numero: ");
-	scanf("%d", n)
-	
+	scanf("%d", &n);
+	vAlumno = malloc(sizeof(alumno) * n);
+	for (i = 0; i < n; i++){
+		printf("Ingrese el nombre del alumno y la nota: ");
+		scanf("%s %d", vAlumno[i].nombre, &vAlumno[i].nota);
+		//printf("\n");
+		//printf("la nota: %d\n", vAlumno[i].nota);
+		//scanf("%d\n", &vAlumno[i].nota);
+	}
+	for (i=0; i<n; i++){
+		promedio += vAlumno[i].nota;
+	}
+	promedio = promedio/n;
+	printf("El promedio es: %d\n", promedio);
+	free(vAlumno);
 	return 0;
 }
 
