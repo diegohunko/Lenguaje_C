@@ -33,13 +33,18 @@ void imprimir (long i) {
 
 int init_module(void) {
 	int retval;
+	rt_set_oneshot_mode();
+	start_rt_timer(1);
 	for (i = 0; i<LIMITE; i++){
-	        rt_set_oneshot_mode();
-	        start_rt_timer(1);
 	        retval = rt_task_init(&tarea[i], imprimir, i, 1024, 0, 0, 0);
+	        if (retval == EINVAL) rt_printfk("Estructura de tarea señalada por la tarea ya está en uso");
+	        if (retval == ENOMEM) rt_printfk("El tamaño de la pila no pudo ser asignada a la pila");
 	        /* controlar valor devuelto ...*/
-
+	}
+	for (i = 0; i < LIMITE; i++){
 	        retval = rt_task_resume(&tarea[i]);
+	        if (retval == EINVAL) rt_printfk("Estructura de tarea señalada por la tarea ya está en uso");
+	        if (retval == ENOMEM) rt_printfk("El tamanio de la pila no pudo ser asignada a la pila");
 	}
 	return 0;
 }
